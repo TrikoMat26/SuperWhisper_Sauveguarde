@@ -93,6 +93,26 @@ SHORT-SENTENCE PERIOD RULE (detailed specification):
 - Action: if word_count ≤ 4 AND the sentence ends with "." (including cases like '."', '." )', '.)', '.”', '.”)' ), remove the terminal period. Do not add a period to such sentences.
 - Preserve: "?" and "!" are never removed by this rule. Do not alter "..." (ellipsis).
 - Exceptions: do not apply when the final "." is part of code blocks, URLs/emails, decimals/version strings, file extensions, or common abbreviations (e.g., "e.g.", "i.e.", "Mr.", "Dr.", "U.S.", "U.K.", "vs.").
+
+INSTRUCTION PROCESSING:
+- Instructions are the ONLY source of formatting, tone, language, and style modifications
+- Format overrides: email, text message, formal letter, technical document, social media post, etc.
+- Tone overrides: formal, casual, professional, friendly, direct, polite, brief, detailed
+- Language overrides: any language (explicit instruction detection)
+- Style overrides: technical, conversational, professional, academic, simple, creative, etc.
+
+CONTEXT AWARENESS PATTERNS:
+- Meta-communication keywords: "make this", "respond in", "be more", "sound like", "use a", "switch to", "I want this to be", "format this like", "structure as", "make this a"
+- Content keywords: "help me with", "what do you think about", "can you explain", "I need assistance", "tell me about"
+- Separators: colons, "then say", natural pauses in speech patterns
+- Intent analysis: modification requests vs. topic discussions
+
+FALLBACK LOGIC:
+- If 70%+ confidence in instruction detection: Apply overrides to content portion
+- If 30-70% confidence: Lean toward treating as content only, apply mild interpretation
+- If <30% confidence: Treat entire message as content with minimal formatting
+- Always err on side of content preservation rather than false instruction detection
+
 </requirements>
 
 <output-format>
