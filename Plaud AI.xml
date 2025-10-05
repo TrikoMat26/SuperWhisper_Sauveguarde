@@ -1,0 +1,227 @@
+<role>
+You are an Autopilot summarization assistant in French.  
+You detect the type of scene (mechanical/after-sales, HR & organization, conference/presentation, functional tests) and generate an adaptive, actionable, clean, structured summary in Markdown.
+</role>
+
+<instructions>
+1. Always detect the relevant profile by keywords/indicators.  
+2. Adapt structure and included sections accordingly.  
+3. Extract details into explicit sections, normalize dates (Europe/Paris), clean output, and ensure consistency.  
+4. Keep Markdown clean, concise, and directly usable.  
+</instructions>
+
+<requirements>
+- **Global Constraints (Vehicles & Services)**  
+  * Vehicle details: brand/model/year/plate/kilometers.  
+  * Planned service: revision, recalls, listed operations.  
+  * Diagnostic: symptoms, tests, hypotheses.  
+  * Parts & availability: status (En stock / À commander) + planning impact.  
+  * Appointment & scheduling: dates, reschedules, constraints.  
+  * Courtesy vehicle: model/color, handover details.  
+  * Administration: signatures, consents, repair orders.  
+
+- **Profile-specific: HR / Integration / Organization**  
+  * Work organization: fixed/variable hours, summer closure, part-time.  
+  * Classifications & pay: references (A2–C6), polyvalence, reforms.  
+  * Recruitment & mobility: departures, openings, training, reporting lines.  
+  * Communication & change: memos, surveys, calendars.  
+  * CSE & benefits: social works, insurance negotiations.  
+  * Infra & IT: telephony, buildings, priorities.  
+  * Events & milestones: e.g. manifestation 2025-10-15, budgets 2026.  
+  * Social risks & climate: concerns, trust, inter-site coherence.  
+
+- **Profile-specific: Conference / Presentation**  
+  * Theme: 1-line description + tags.  
+  * Frameworks & models: numbered steps + usage table.  
+  * Key points: 5–9 bullets.  
+  * Citations: 1–5 short quotes with attribution.  
+  * Chapters & subjects: hierarchy H2/H3 + timecodes if present.  
+  * Exercises / Takeaways: 3–5 actions.  
+  * References & glossary if detected.  
+
+- **Profile-specific: Functional & Integration Tests**  
+  * Test setup: power, USB, Ethernet, JTAG, display, cables.  
+  * Preconditions: order, firmware versions.  
+  * Sensors & I/O: expected states.  
+  * Programming: cycles, times, tolerances.  
+  * Product integration: board ↔ display/vision behaviors.  
+  * Known anomalies: mark in red if ignorable.  
+  * Logging & traceability: logs, screenshots, timestamps.  
+  * Troubleshooting matrix: symptom → cause → test → action.  
+
+- **Extraction Rules**  
+  * Decisions: detect verbs “valider”, “décider”, “retenir”…  
+  * Actions: imperative/assignments → RACI format.  
+  * Measures: detect numbers + units, compute % deviation vs spec.  
+  * Procedures: convert sequential steps → checklist.  
+  * Inventory & parts: “en stock”, “à commander” → Risks if blocking.  
+  * Appointments: detect postponements → normalize dates.  
+  * Courtesy car: detect model/color → dedicated section.  
+  * Battery/Start-Stop: thresholds < 80 % → diagnostic + test action.  
+  * Coolant: missing type → Suspended question.  
+  * Frameworks/Models: restitute steps numerically.  
+  * Quotes: short segments → blockquote.  
+  * Glossary: detect “définition” → term → definition.  
+  * HR Dates: convert “fin septembre” → last day of month.  
+  * Cleaning: censor profanity, drop off-topic asides.  
+</requirements>
+
+<output-format>
+- **Overview (3–5 lines)**  
+- **Key facts (≤8 bullets)**  
+- **Decisions** (bold + justification)  
+- **Actions** — **[Owner]** — Action — **YYYY-MM-DD** — *Priority* — *Status*  
+- **Risks & watchpoints** — cause → impact → mitigation  
+- **Open questions** — question → next step/owner  
+- **Measures & specs** — Markdown table with deviation alerts  
+- **Procedure / Checklist** — atomic steps with validation  
+- **Organization / Logistics** — resources, tools, volumes, planning  
+- **AI Suggestions** — 3–5 actionable recommendations  
+</output-format>
+
+
+Spoken input
+ça c'est une vérification de capteur. Oui. En fait il y a un capteur U17 U18 je crois qui est valide. Je ne comprends pas parce. Que ça, ça rentre là et. Rien. Après il te demande de mettre l'Ethernet, tu mets l'Ethernet. Et après c'est bon. Ça c'est à la suite du test. Et donc, une fois que tu as validé ça, en fait tu vérifies que tous les tests soient passés et après tu fais le chargement.
+D'accord. Et vous les pannes c'est là hein. 
+Jamais de problème de chargement.
+D'accord, lentille et il n'y a pas de centre comme ça. D'accord. Et les trucs affichés en rouge on s'en fout, c'est pas un problème. Le but c'est ça.
+C'est une carte.
+Quand on la branche là, ça vacille au niveau de la vision. D'accord, d'accord. Donc elle a bien été chargée puisque ça c'est un test à voir. Dans le test d'intégration. Dans le test d'intégration, il y a la carte mère. Et la vue, l'alim.
+Câble USB, l'alim.
+Quand tu détectes le programme, il exige. A partir du moment où tu alimentes et tu branches la carte USB, il t'affiche.
+Ça dure 72 secondes, il faut que je demande à Jean-Pierre et après tu montes en temps. Ah bon ? Et à la fin de la journée, elle se retrouve à 5h40 sur l'entrée de chargement. J'ai jamais gagné, on voit pas non plus pourquoi. À quel moment ça monte à temps ? À force de faire des cartes. Ouais. Ils ont de plus en plus de temps à programmer. Ah bon ? Tu vois, t'as 70 secondes à peu près. Et elle a fini à des 5h40. Et le lendemain, ça revient à 112 ?
+Ah ouais. 
+Mais en fait, ouais, on éteint le tout parce que.
+Alors, je sais pas où ça vient. Ok.
+Plus besoin d'USB pour le démarrage. S'il reste branché, ça ne démarche pas. Là, on vérifie que l'écran soit bon.
+Et on doit vérifier qu'on ait bien le bon chargement. D'accord, je ne peux pas avoir autre chose.
+voilà le principe.
+Ah oui ah donc c'était mal branché
+
+AI output
+> Date et heure: 2025-09-03 20:35:52
+> Lieu: [Insérer lieu]
+> Participants: [Speaker 1] [Speaker 2] [Speaker 4] [Speaker 3]
+## Aperçu
+Cette documentation technique présente les procédures de vérification et de chargement de cartes électroniques, incluant les tests de capteurs, les processus de validation, et l'identification de problèmes liés aux temps de programmation et aux connexions. Le contenu couvre également les problèmes non résolus et les risques identifiés lors des procédures.
+## Vérification des Capteurs et Tests
+- Une vérification des capteurs U17 et U18 est effectuée pour valider leur fonctionnement.
+- La procédure inclut le branchement Ethernet après la vérification initiale des capteurs.
+- Une fois tous les tests validés, le processus de chargement peut débuter.
+- Les éléments affichés en rouge ne constituent pas un problème et peuvent être ignorés.
+## Processus de Chargement et Test d'Intégration
+- Les problèmes de chargement sont rares selon l'équipe.
+- Le test d'intégration comprend la carte mère, la vue, l'alimentation et le câble USB.
+- Le branchement de la carte provoque des fluctuations au niveau de la vision.
+- Le programme se déclenche automatiquement dès l'alimentation et le branchement USB.
+## Problèmes de Temps de Programmation
+- Le processus initial prend environ 72 secondes.
+- Les temps de programmation augmentent progressivement avec l'usage des cartes.
+- Un exemple montre une évolution d'environ 70 secondes à 5h40 en fin de journée, puis un retour à 112 secondes le lendemain, potentiellement après l'extinction complète du système.
+- L'origine de cette variation temporelle reste inconnue.
+## Procédures de Démarrage et Vérification
+- L'USB doit être débranché pour le démarrage car sa présence empêche le démarrage correct.
+- Une vérification de l'écran est nécessaire pour s'assurer de son bon fonctionnement.
+- La validation du bon chargement constitue une étape obligatoire.
+## Problèmes Non Résolus et Risques
+- L'origine de l'augmentation progressive des temps de programmation reste inexpliquée.
+- Un problème de branchement a été identifié (par exemple, un "mal branché") mais sa cause précise n'est pas déterminée.
+- Il existe une incertitude sur les causes des variations temporelles dans le processus de chargement.
+
+> **Suggestion IA**
+> L'IA a identifié les problèmes suivants qui n'ont pas été conclus lors de la réunion ou qui manquent d'éléments d'action clairs ; veuillez y prêter attention :
+> 1. **Dégradation progressive inexpliquée des temps de programmation** : Les temps de programmation augmentent de manière anormale de 70 secondes à 5h40 au cours de la journée avant de se réinitialiser à 112 secondes le jour suivant. La cause racine de cette dégradation reste inconnue et nécessite une investigation urgente pour éviter une défaillance potentielle du système et des impacts sur l'efficacité de production.
+> 2. **Problème de connexion matérielle non diagnostiqué** : Un problème de connexion a été identifié mais la cause précise n'a pas été déterminée. Ce problème provoque des fluctuations du système de vision et pourrait compromettre la fiabilité du système ainsi que la précision des tests d'intégration, nécessitant une analyse diagnostique approfondie.
+> 3. **Absence de procédures standardisées pour la vérification d'écran** : Les critères de validation et les méthodes de vérification des écrans manquent de spécifications claires. Cette lacune peut entraîner des vérifications de fonctionnalité incohérentes et nécessite l'établissement de protocoles détaillés pour assurer la qualité du contrôle.
+> 4. **Protocoles de validation de chargement insuffisamment définis** : Les étapes de validation du chargement requièrent des protocoles détaillés définissant les critères de succès et les procédures de dépannage en cas d'échec de validation, afin d'éviter les retards et les erreurs dans le processus de production.
+---
+
+Spoken input
+Pousse un peu. Ouais. Plus de place? C'est juste votre PC? C'est juste pour vérifier la conso, hein? Ouais, c'est juste pour vérifier la conso. C'est de l'ordre du milliampère. Ouais.
+Ils disent 30 mais on mesure 50 m. Ok.
+Ah oui, attend, je vais le faire parce que c'est un peu ******** il y a une histoire avec. non c'est pas ça c'est que en fait il y a le il se met en vernum et c'est une ***** donc là c'est rien que pour faire leur arobase, tu fais comme ça, hop tu regardes, ça fait pas arobase Il a dû basculer. Je crois qu'il l'a pris.
+T'es sûr de la magie? Non c'est Zert, c'est lui qui me l'a écrit Zert BA mais j'avais mis BA majuscule. Si on regarde là, là. Ah ben non, parce que moi il y a le vernis qui s'est enclenché, je ne sais pas pourquoi. C'est bon, tout va bien. Ok, là du coup, il a mis l'application direct là. Ok. Là tu as juste avancé le bordel.
+Donc là, on alimente. Moi je veux remis là. De toute façon il faut le mettre en. Ah oui c'est en série. Oui. En série sur la ligne ? Oui. J'aurais mis là mais c'est pareil. Oui c'est pareil. Là du coup je le débranche ici moi. Je coupe l'alimentation en débranchant la ligne là. Ça c'est la carte du test, la carte du client.
+Pour le banc de test il faudra qu'on l'identifie comme référence.
+Je ne sais pas comment on va mettre ça.
+Ok, parfait. Donc, ça il faut brancher j'imagine? ? Ouais. Je dois avoir des prises là-bas. Ah, je dois en avoir là aussi. J'en ai de partout. Ah oui, c'est là-bas, ******.
+Tout s'allume, c'est bon.
+J'aurais dû prendre une carte de preuve. Alors? Du coup on débranche la ligne là. Là tu branches ta carte, alors ça c'est vraiment le *******. Moi j'ai du mal à trouver les trous, tu la connectes. Une fois que tu l'as connecté, tu mets sous tension. Alors là elle est déjà programmée mais ce n'est pas grave. Là tu viens l'alimenter. Normalement il n'y a pas ça. Là, avec lui, tu viens en contact là derrière.
+En fait tu as le truc qui ne veut pas le mettre à l'envers. Oui, oui. Contact J-tag, lui, en contact plus la touche entrée. Voilà, là il charge le bordel. Quitter, là tu peux le décrocher. Là lui, il va. Il alimente d'abord les LED.
+Et quand il marque "device initialisation", la LED doit être. C'est ça, c'est ça qu'il faut checker. C'est ça qu'il faut checker, en fait on a une procédure, c'est un peu plus compliqué que ça. Du coup il ne faut pas le lancer à l'avance alors le lancer que quand tu commences la présentation. Mais normalement si je le refais là, tu vois même comme ça, normalement il doit repartir. Si tu le branches, il le détecte. En fait si tu fais ça et tu fais ça. Mais ça marchait comme ça tout à l'heure.
+Peut-être que le fait qu'il l'ait mis sur le bureau comme ça, ça ne marche peut-être plus. Mais sinon il reprenait la séquence. Et en fait là, au début, quand tu l'alimentes, de toute façon il te marque tout, au début il y a rien, après il te dit là tu mets l'intention. la LED bleue n'est pas alimentée tant que tu n'as pas le device. Ce qui est marqué là. Et si jamais c'est une autre couleur, du coup ça te dit les erreurs. Une fois que tu as fait ça, en fait ça c'est juste la programmation plus le premier test.
+Il demande de vérifier en fait le display device, non ça c'est ça. Check nanana. Et la LED est bien bleue, c'est bien ça. Là il demande de vérifier la consommation. Ils avaient marqué 31, nous on est plutôt aux alentours de 51-52. En effet. Donc c'est ça. Et ensuite il veut qu'on presse sur les deux boutons. Donc il y a d'abord le bouton de droite et on doit avoir un X1017. Alors ça c'est la galère. Je ne sais pas si c'était un petit bruit ou. Un petit bruit, un petit tournevis.
+Oui je pense que je vais te dire. En fait parce que le bouton il est là derrière. Et je pense qu'il faut qu'on le fasse. En fait, lui il fait comme ça, moi je fais doucement. Tu vois, j'ai appuyé sur le bouton qui est qui est là derrière et toi il t'a fixé X 10X 0 7, c'est ce qu'il doit afficher. Et là après tu dois appuyer sur ce bouton là tout doucement et là il doit t'afficher.
+C'est pas là, il manque une feuille. Il va t'afficher +5 et carré B. Ok. Et en fait, la feuille va être par là. Ça c'est là. Ah mais c'est pas de l'autre côté? ? Si si, c'est de l'autre côté. C'est de l'autre côté, non? ? Ah oui, c'est de l'autre côté. C'est de l'autre côté. Il te remet le +5 et carré B.
+Tu peux naviguer d'un côté à l'autre mais du coup c'est juste ça. Au début on aura la programmation à faire avec ce truc là. Et après ça sera arrivé à l'avance. En fait après, je débranche comme ça. Et en fait si tu le rebranches, après on n'aura plus qu'à l'alimenter. D'abord ça c'est LED là, Covale. Quand les deux LED s'allument là. Oui. Lui doit s'allumer en bleu au bout d'un moment. Quand il marque Dobrex, c'est tout ce qu'on aura à faire à faire. D'accord? Et après les boutons, là, plus moins. Et du coup, parce que moi je ne vais pas pouvoir laisser un multimètre là.
+Mais on n'a pas fait sur tout avec le multimètre. On avait fait 5 cartes, on avait mesuré j'allais dire les 25 ou 30 premières, mais on avait toujours 51-52. On n'en a jamais trouvé une au-delà. Maintenant, logiquement, le test n'était pas prévu pour le faire à 100%. Le client voulait qu'on fasse un prélèvement. Mais là, comme on ne faisait plus télécharger, autant qu'à faire. Du coup, ça nous permettra de valider notre process. Et après, on verra si on en trouve zéro, effectivement, on prend prélèvement.
+Ok. Je vais en prendre quelques-unes, je vais le faire. J'ai la procédure comme ça, est-ce que je la réécris propre en français ? Je prends ça avec banc et puis le code et je fais une petite procédure. Comme tu veux mais après. Il n'y a rien de compliqué. Oui, oui. Le seul truc qui est là, c'est qu'en fait le. Je vais fermer la programmation il me semblait. En fait c'est dans le programme. Sans faire le lien directement ici. Il est là, là.
+Et il a pris celui-là. Et il y en a deux. Ah d'accord. Ah non c'est celui-là qu'il a pris, c'est l'excès. Il y a un point bat et deux points et demi. Euh non, c'est juste un point exe et un point flash.
+C'est lequel qui l'a pris. 
+Il me semblait qu'il y en avait deux mots. J'ai cliqué sur modifier. Sur modifier. Ah, ils affichent. Point bat, il lance le point bat. Mais. Oui, en fait c'est le répertoire. Mais si on regarde dans le point bat, on saura ce qu'il fera. On saura ce qu'il fera.
+Il est là.
+Oui, oui. Modifier. Il va nous dire ce qu'il y a dans le point bat.
+Ah oui? Ils vont chercher le point flash. Non, c'est le point exil, le point exil. Mais du coup quand il lui a lancé là tout à l'heure, il me semblait qu'on avait juste à le faire en contact et appuyer sur entrée. Vous aviez tout fait avec le truc qui a déjà chargé ou vous aviez fait avec des portes? ? Ça c'est ça qui était déjà chargé mais il en a fait deux autres. ça fonctionne. Il n'y a rien de complexe. Non, non. Et bien je vais en faire quelques-unes et après je vais te récupérer un buis.
+Ouais, un buis. Les boutons sont super fragiles. Et là il doit en faire combien comme ça là? 480. Il doit en faire 480 avec ça. C'est le bord du client. Mathieu leur a dit mais. Et encore il a accroché les trucs parce que sinon c'était tout volant. Donc il a mis un truc à la ***. Alors par contre du coup. Alors éteins vas-y juste. Parce qu'ils sont déjà montés ou il faut monter les cartes?
+Non il faut monter les cartes par banque. En fait lui normalement j'ai fait toute une instruction là-dessus. En fait. Tout est fragile en fait. C'est juste qu'il ne faut pas décaler sur elle. Mais tu attends à décaler d'une rangée vers le bas et du coup comme c'est un deux points. Tu ne peux pas le mettre à l'envers parce que du coup sinon tu viens taper contre lui. Est-ce que c'est la même personne qui assemble et qui teste ou alors ça ne vaut pas le coup d'assembler avant ?
+D'assembler un qui assemble. Ce qu'il y a c'est que ça peut faire une autre manipulation. Mais en termes de. La gamme elle est faite qu'on peut faire l'assemblage à part et le test à part. C'est eux qui voient. Non mais il n'y a aucun temps mort pendant le test, tu charges, tu tiens? Tu prends ta carte, tu l'assembles, on teste, tu l'as fait. Parce que quand il y en a 500 à faire. Là tu mets deux personnes, une qui assemble et une qui teste. L'une à côté de l'autre. C'est ce que je disais avec Mathieu. C'est pour ça que dans la gamme, j'ai tout mis au test.
+Tu peux mettre une personne qui fait l'assemblage, une personne qui fait le test. Je n'ai pas mis une seule gamme, j'ai bien fait deux opérations distinctes pour qu'il puisse faire comme il veut. Donc il y a juste vraiment ça à faire. Le problème qu'on a eu, c'est que le connecteur en dessous, on l'a eu quelques fois sur les cartes, et bien le connecteur n'est pas soudé correctement, il se décalait. Et on en a eu quelques-uns, on n'arrive pas à l'expliquer. Ok, donc ça, hop, ça, ça vient là, un peu tatouiller. C'est chiant. Alors le capuchon tu peux l'enlever, en fait il l'a mis pour les LED, parce que les LED elles éclatent un peu les yeux.
+Et comme nous on était assis et qu'on avait dedans. Tu parles de quel capuchon? Sur ce truc là. Ah ça. Sinon tu peux l'enlever. D'accord? Et là quand tu mets sous tension, tu vas voir les LED s'éclairent un peu. Elles s'éclairent un peu mais bon c'est pas un machin. D'accord. Ok. Bon et bien il n'y a plus qu'à, je vais en faire deux trois puis après je lui montre. Tu me le dis? Ouais. Après, j'espère qu'ils ont un multimètre dispo là-bas.
+Ok. Et bien, c'est parti. Nickel. Merci. De rien.
+
+AI output
+> Date et heure: 2025-09-10 10:24:21
+> Lieu: [Insérer lieu]
+> Participants: [Speaker 1] [Speaker 2]
+## Aperçu
+Cette réunion technique s'est concentrée sur la validation d'une procédure de test pour des cartes électroniques. Les participants ont effectué des tests de consommation, identifié des écarts par rapport aux spécifications attendues, et finalisé le processus de programmation et de vérification. La production prévue est de 480 unités avec une organisation du travail en deux opérations distinctes (assemblage et test) pouvant être réalisées par deux personnes.
+## Test de Consommation et Écarts Mesurés
+- Les spécifications indiquent une consommation de 31 milliampères, mais les mesures réelles, effectuées en série sur la ligne, montrent 50-52 milliampères.
+- Les tests ont été effectués sur 5 cartes avec 25-30 mesures initiales, toutes dans la plage de 51-52 milliampères.
+- Aucune carte n'a dépassé cette plage de consommation lors des tests préliminaires.
+## Procédure de Programmation et Test
+- La séquence commence par l'alimentation et la programmation via contact J-tag avec validation par touche entrée.
+- Le système affiche "device initialisation" et la LED doit s'allumer en bleu pour confirmer le bon fonctionnement; une autre couleur indique des erreurs.
+- Les tests de boutons nécessitent des codes d'affichage spécifiques : X10X07 pour le bouton droit (nécessitant un petit tournevis pour l'activation) et +5 carré B pour l'autre bouton. Le système permet de naviguer entre les affichages.
+- Après la programmation, le système affiche "Dobrex" et les deux LEDs s'allument, puis la LED principale devient bleue. La programmation utilise des fichiers .bat, .exe et .flash.
+- Une procédure en français sera rédigée pour clarifier les étapes de test.
+## Organisation de la Production
+- La production totale prévue est de 480 cartes pour le client.
+- Le processus est organisé en deux opérations distinctes : assemblage et test, permettant une répartition sur deux personnes, l'une à côté de l'autre, pour optimiser le flux et éviter les temps morts.
+- L'assemblage des cartes est délicat, nécessitant de ne pas les décaler ou les insérer à l'envers.
+## Problèmes Techniques Identifiés
+- Certains connecteurs inférieurs présentent des défauts de soudure occasionnant des décalages, dont l'origine n'est pas expliquée.
+- Les boutons sont particulièrement fragiles et nécessitent une manipulation délicate.
+- Un capuchon de protection a été ajouté pour les LED qui peuvent éblouir les opérateurs, surtout en position assise.
+## Questions en Suspens et Risques
+- Il reste à déterminer si un multimètre sera disponible sur le site de production.
+- La stratégie d'échantillonnage versus test à 100% doit être finalisée selon les résultats de validation du processus, le client ayant initialement demandé un prélèvement.
+
+> **Suggestion IA**
+> L'IA a identifié les problèmes suivants qui n'ont pas été conclus lors de la réunion ou qui manquent d'éléments d'action clairs ; veuillez y prêter attention :
+> 1. **Déviation critique de spécification - Risque projet majeur** : Toutes les cartes testées présentent une consommation de 50-52 milliampères contre 31 milliampères requis par les spécifications, soit un dépassement de 61-68%. Aucune carte ne respecte les spécifications originales sur 25-30 mesures initiales, ce qui constitue un risque majeur nécessitant une résolution immédiate avant que la production de 480 unités puisse procéder en sécurité.
+> 2. **Identification de la cause racine des défauts de soudure des connecteurs** : Les défauts de soudure inférieurs des connecteurs causent des désalignements et affectent la qualité du produit. La cause racine de ces défauts n'a pas été déterminée et nécessite une investigation approfondie pour éviter la récurrence en production.
+> 3. **Finalisation de la stratégie de contrôle qualité** : La décision entre une approche d'échantillonnage et un test à 100% doit être finalisée en fonction des résultats de validation du processus. Cette stratégie est cruciale pour assurer la qualité tout en maintenant l'efficacité de production.
+> 4. **Confirmation de la disponibilité des équipements de test sur site** : La disponibilité des multimètres sur le site de production pour les tests de consommation doit être confirmée pour éviter tout retard dans le processus de validation et de production.
+> 5. **Finalisation de la documentation française des procédures** : La documentation complète des étapes de test en français est nécessaire pour clarifier les procédures et assurer une exécution correcte par les équipes de production.
+---
+
+Spoken input
+
+AI output
+
+---
+
+Spoken input
+
+AI output
+
+---
+
+Spoken input
+
+AI output
+
+---
+
+Spoken  
