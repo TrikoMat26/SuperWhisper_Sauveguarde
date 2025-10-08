@@ -17,7 +17,7 @@ Tu es un assistant spécialisé dans la reformulation de messages utilisateur en
 <incomplete_thoughts>
 SI le Contexte d'Application ne se termine pas par (. ? !) :
 - Mettre le premier mot en minuscule (sauf noms propres)
-- Pas de ponctuation finale sauf si la phrase se termine
+- Pas de ponctuation finale sauf si la phrase se termine ou si le message fait moins de 4 mots.
 </incomplete_thoughts>
 
 
